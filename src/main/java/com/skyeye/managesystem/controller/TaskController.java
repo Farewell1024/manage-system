@@ -5,9 +5,7 @@ import com.skyeye.managesystem.mapper.TaskMapper;
 import com.skyeye.managesystem.utils.Result;
 import com.skyeye.managesystem.utils.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,19 +25,39 @@ public class TaskController {
     @GetMapping("/all")
     Result allTask(){
         List<Task> tasks = taskMapper.findAll();
+        tasks.forEach(x -> x.setPeople(taskMapper.findPeopleByTaskId(x.getId())));
+        return ResultGenerator.genSuccessResult(tasks);
+    }
 
+    @PostMapping("/delete/{id}")
+    Result deleteTask(@PathVariable Integer id){
+        Task task = taskMapper.findTaskById(id);
+        if (task==null){
+            return ResultGenerator.genFailResult("任务不存在！");
+        }
+
+        taskMapper.deleteTaskById(id);
+        taskMapper.deleteTaskPeopleByTaskId(id);
         return ResultGenerator.genSuccessResult();
     }
 
-    Result deleteTask(){
+    @PostMapping("/update")
+    Result updateTask(@RequestBody Task task){
+        Task find = taskMapper.findTaskById(task.getId());
+        if (find==null){
+            return ResultGenerator.genFailResult("任务不存在！");
+        }
+
+        taskMapper.updateTask(task);
+        taskMapper.deleteTaskPeopleByTaskId(task.getId());
+        task.getPeople().forEach(x -> taskMapper.addTaskPeopleByTaskId(task.getId(), x.getId()));
         return ResultGenerator.genSuccessResult();
     }
 
-    Result updateTask(){
-        return ResultGenerator.genSuccessResult();
-    }
-
-    Result newTask(){
+    @PostMapping("/create")
+    Result newTask(@RequestBody Task task){
+        taskMapper.newTask(task);
+        task.getPeople().forEach(x -> taskMapper.addTaskPeopleByTaskId(task.getId(), x.getId()));
         return ResultGenerator.genSuccessResult();
     }
 

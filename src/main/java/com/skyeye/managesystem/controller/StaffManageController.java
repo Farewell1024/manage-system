@@ -2,6 +2,7 @@ package com.skyeye.managesystem.controller;
 
 import com.skyeye.managesystem.domain.User;
 import com.skyeye.managesystem.mapper.StaffManageMapper;
+import com.skyeye.managesystem.mapper.TaskMapper;
 import com.skyeye.managesystem.utils.Result;
 import com.skyeye.managesystem.utils.ResultGenerator;
 import io.swagger.annotations.Api;
@@ -24,6 +25,9 @@ public class StaffManageController {
 
     @Autowired
     private StaffManageMapper staffManageMapper;
+
+    @Autowired
+    private TaskMapper taskMapper;
 
     @ApiOperation(value = "查询所有的职员",httpMethod = "GET")
     @GetMapping("/all")
@@ -60,6 +64,12 @@ public class StaffManageController {
             return ResultGenerator.genFailResult("该用户不存在！");
         }
         staffManageMapper.updateUser(user);
+        return ResultGenerator.genSuccessResult();
+    }
+
+    @PostMapping("/distribute_task")
+    Result distributeTask(@RequestParam Integer userId, @RequestParam Integer taskId){
+        taskMapper.addTaskPeopleByTaskId(taskId,userId);
         return ResultGenerator.genSuccessResult();
     }
 }
