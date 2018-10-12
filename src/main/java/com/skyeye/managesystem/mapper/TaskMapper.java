@@ -17,25 +17,25 @@ import java.util.List;
 @Repository
 public interface TaskMapper {
 
-    @Select("")
+    @Select("SELECT id,title,description,begin,end from task")
     List<Task> findAll();
 
-    @Select("")
+    @Select("SELECT b.* from task_user AS a LEFT JOIN t_user AS b on a.user_id=b.id WHERE a.task_id=#{id};")
     List<User> findPeopleByTaskId(Integer id);
 
-    @Delete("")
+    @Delete("DELETE from task WHERE id=#{id};")
     void deleteTaskById(Integer id);
 
-    @Delete("")
+    @Delete("DELETE FROM task_user WHERE task_id=#{id};")
     void deleteTaskPeopleByTaskId(Integer id);
 
-    @Update("")
+    @Update("UPDATE task SET title=#{title} AND description=#{description} AND begin=#{begin} AND end=#{end} WHERE id=#{id};")
     void updateTask(Task task);
 
-    @Insert("")
-    void addTaskPeopleByTaskId(Integer id, Integer id1);
+    @Insert("INSERT task_user (user_id, task_id) VALUES (#{userId},#{taskId})")
+    void addTaskPeopleByTaskId(@Param("taskId") Integer taskId,@Param("userId") Integer userId);
 
-    @Insert("")
+    @Insert("INSERT task ( title, description, begin, end) VALUES (#{title},#{description},#{begin},#{end});")
     @Options(useGeneratedKeys = true)
     void newTask(Task task);
 
@@ -44,6 +44,6 @@ public interface TaskMapper {
      * @param id
      * @return
      */
-    @Select("")
+    @Select("SELECT id,title,description,begin,end from task WHERE id = #{id};")
     Task findTaskById(Integer id);
 }

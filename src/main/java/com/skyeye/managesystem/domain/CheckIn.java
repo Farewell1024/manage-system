@@ -5,15 +5,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * Function:
+ *
+ * @author zhangyu
+ * Date: 2018/10/12 上午11:49
+ * @since JDK 1.8
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Finance {
+public class CheckIn {
 
     private Integer id;
 
-    private Double money;
+    private Integer userId;
 
     private Integer year;
 
@@ -21,11 +28,10 @@ public class Finance {
 
     private Integer day;
 
-    private String description;
+    private Integer hour;
 
-    /**
-     * 类型。0 收入 ; 1 支出 ; 2 员工工资
-     */
-    private Integer type;
+    private Integer minute;
+
+    private Boolean isLate;
 
 }
