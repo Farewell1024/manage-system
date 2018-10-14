@@ -23,7 +23,7 @@ public interface FinanceMapper {
             "VALUES (#{money},#{year},#{month},#{day},#{description},#{type});")
     void addFinance(Finance finance);
 
-    @Delete("DELETE FROM finance WHERE id=#{};")
+    @Delete("DELETE FROM finance WHERE id=#{id};")
     void deleteFinanceById(Integer id);
 
     @Update("UPDATE finance SET money=#{money} AND year=#{year} AND month=#{month} AND day=#{day} " +

@@ -5,30 +5,33 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.Date;
+
 /**
- * 财务
+ * 请假
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Finance {
+public class Leave {
 
     private Integer id;
 
-    private Double money;
+    private Integer userId;
 
-    private Integer year;
+    private String userName;
 
-    private Integer month;
+    private Date createTime;
 
-    private Integer day;
+    private Date startTime;
+
+    private Date endTime;
 
     private String description;
 
     /**
-     * 类型。0 收入 ; 1 支出 ; 2 员工工资
+     * 状态：0：审核中；1：通过：2：未通过
      */
-    private Integer type;
-
+    private Integer status;
 }

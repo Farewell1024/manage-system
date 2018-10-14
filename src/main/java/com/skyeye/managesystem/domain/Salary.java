@@ -6,31 +6,27 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
- * Function: 签到
- *
- * Date: 2018/10/12 上午11:49
- * @since JDK 1.8
+ * 工资
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class CheckIn {
+public class Salary {
 
     private Integer id;
 
     private Integer userId;
 
+    private String userName;
+
+    private Double salary;
+
     private Integer year;
 
     private Integer month;
 
-    private Integer day;
+    private String description;
 
-    private Integer hour;
-
-    private Integer minute;
-
-    private Boolean isLate;
 
 }

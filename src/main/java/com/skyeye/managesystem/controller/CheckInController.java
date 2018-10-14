@@ -1,5 +1,6 @@
 package com.skyeye.managesystem.controller;
 
+import com.google.common.collect.Lists;
 import com.skyeye.managesystem.domain.CheckIn;
 import com.skyeye.managesystem.mapper.CheckInMapper;
 import com.skyeye.managesystem.utils.Result;
@@ -50,6 +51,15 @@ public class CheckInController {
         return ResultGenerator.genSuccessResult(checkIns);
     }
 
+    @GetMapping("/sum")
+    Result sum(Integer year, Integer month, Integer userId){
+        Integer checkInDay = checkInMapper.searchSumCheckIn( year,  month,  userId);
+        Integer lateDay =  checkInMapper.searchSumLate(year,  month,  userId);
+        List<Integer> list = Lists.newArrayList();
+        list.add(checkInDay);
+        list.add(lateDay);
+        return ResultGenerator.genSuccessResult(list);
+    }
 
 //    public static void main(String[] args) {
 //        Integer hour =9;

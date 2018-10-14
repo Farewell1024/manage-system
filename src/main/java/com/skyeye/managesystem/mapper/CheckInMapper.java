@@ -24,4 +24,9 @@ public interface CheckInMapper {
 
     @Select("")
     List<CheckIn> searchByDateAndUserId(Integer year, Integer month, Integer userId);
+
+    @Select("")
+    Integer searchSumCheckIn(Integer year, Integer month, Integer userId);
+
+    Integer searchSumLate(Integer year, Integer month, Integer userId);
 }

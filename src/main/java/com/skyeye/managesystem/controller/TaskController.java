@@ -26,6 +26,7 @@ public class TaskController {
     Result allTask(){
         List<Task> tasks = taskMapper.findAll();
         tasks.forEach(x -> x.setPeople(taskMapper.findPeopleByTaskId(x.getId())));
+        tasks.forEach(x -> taskMapper.findScheduleByTaskId(x.getId()));
         return ResultGenerator.genSuccessResult(tasks);
     }
 
@@ -35,10 +36,10 @@ public class TaskController {
         if (task==null){
             return ResultGenerator.genFailResult("任务不存在！");
         }
-
         taskMapper.deleteTaskById(id);
         taskMapper.deleteTaskPeopleByTaskId(id);
-        return ResultGenerator.genSuccessResult();
+        taskMapper.deleteTaskScheduleByTaskId(id);
+        return ResultGenerator.genSuccessResult(true);
     }
 
     @PostMapping("/update")
@@ -47,18 +48,21 @@ public class TaskController {
         if (find==null){
             return ResultGenerator.genFailResult("任务不存在！");
         }
-
         taskMapper.updateTask(task);
         taskMapper.deleteTaskPeopleByTaskId(task.getId());
         task.getPeople().forEach(x -> taskMapper.addTaskPeopleByTaskId(task.getId(), x.getId()));
-        return ResultGenerator.genSuccessResult();
+        taskMapper.deleteTaskScheduleByTaskId(task.getId());
+        task.getTaskSchedules().forEach(x -> taskMapper.addTaskSchedule(x));
+        return ResultGenerator.genSuccessResult(true);
     }
 
     @PostMapping("/create")
     Result newTask(@RequestBody Task task){
         taskMapper.newTask(task);
         task.getPeople().forEach(x -> taskMapper.addTaskPeopleByTaskId(task.getId(), x.getId()));
-        return ResultGenerator.genSuccessResult();
+        task.getTaskSchedules().forEach(x -> taskMapper.addTaskSchedule(x));
+        return ResultGenerator.genSuccessResult(true);
     }
+
 
 }

@@ -32,4 +32,6 @@ public class Task {
 
     private List<User> people;
 
+    private List<TaskSchedule> taskSchedules;
+
 }

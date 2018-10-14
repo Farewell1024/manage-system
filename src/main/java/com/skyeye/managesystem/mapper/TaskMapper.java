@@ -1,6 +1,7 @@
 package com.skyeye.managesystem.mapper;
 
 import com.skyeye.managesystem.domain.Task;
+import com.skyeye.managesystem.domain.TaskSchedule;
 import com.skyeye.managesystem.domain.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -46,4 +47,13 @@ public interface TaskMapper {
      */
     @Select("SELECT id,title,description,begin,end from task WHERE id = #{id};")
     Task findTaskById(Integer id);
+
+    @Select("select task_id, create_time,description from task_schedule where task_id=#{id} order by create_time")
+    void findScheduleByTaskId(Integer id);
+
+    @Delete("delete from task_schedule where task_id=#{id} ")
+    void deleteTaskScheduleByTaskId(Integer id);
+
+    @Insert("insert task_schedule (task_id,create_time,description ) values (#{taskId},#{createTime},#{description})")
+    void addTaskSchedule(TaskSchedule x);
 }
