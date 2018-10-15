@@ -27,4 +27,7 @@ public interface SalaryMapper {
 
     @Select("select id,user_id, user_name ,salary ,year,month,description from t_salary where id = #{salaryId};")
     Salary getById(Integer salaryId);
+
+    @Delete("delete from t_salary where user_id=#{userId}")
+    void deleteByUserId(Integer userId);
 }

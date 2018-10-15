@@ -62,6 +62,10 @@ public class SalaryController {
         return ResultGenerator.genSuccessResult(true);
     }
 
-
+    @GetMapping("/delete/{userId}")
+    Result deleteSalaryByUserId(Integer userId){
+        salaryMapper.deleteByUserId(userId);
+        return ResultGenerator.genSuccessResult(true);
+    }
 
 }
