@@ -3,6 +3,7 @@ package com.skyeye.managesystem.mapper;
 import com.skyeye.managesystem.domain.CheckIn;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
@@ -22,11 +23,12 @@ public interface CheckInMapper {
             "VALUES (#{userId},#{year},#{month},#{day},#{hour},#{minute},#{isLate});")
     void checkIn(CheckIn checkIn);
 
-    @Select("")
-    List<CheckIn> searchByDateAndUserId(Integer year, Integer month, Integer userId);
+    @Select("SELECT user_id, year, month, day, hour, minute, is_late FROM check_in WHERE year='' AND month='' AND user_id='';")
+    List<CheckIn> searchByDateAndUserId(@Param("year") Integer year,@Param("month")  Integer month,@Param("userId")  Integer userId);
 
     @Select("")
     Integer searchSumCheckIn(Integer year, Integer month, Integer userId);
 
+    @Select("")
     Integer searchSumLate(Integer year, Integer month, Integer userId);
 }
