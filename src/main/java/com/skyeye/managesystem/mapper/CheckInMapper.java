@@ -26,9 +26,9 @@ public interface CheckInMapper {
     @Select("SELECT user_id, year, month, day, hour, minute, is_late FROM check_in WHERE year='' AND month='' AND user_id='';")
     List<CheckIn> searchByDateAndUserId(@Param("year") Integer year,@Param("month")  Integer month,@Param("userId")  Integer userId);
 
-    @Select("")
-    Integer searchSumCheckIn(Integer year, Integer month, Integer userId);
+    @Select("SELECT sum(1) from check_in where user_id=#{userId} AND year=#{year} and month=#{month};")
+    Integer searchSumCheckIn(@Param("year") Integer year,@Param("month") Integer month, @Param("userId") Integer userId);
 
-    @Select("")
-    Integer searchSumLate(Integer year, Integer month, Integer userId);
+    @Select("SELECT sum(1) from check_in where user_id=#{userId} AND year=#{year} and month=#{month} and is_late=TRUE ;")
+    Integer searchSumLate(@Param("year") Integer year,@Param("month") Integer month, @Param("userId") Integer userId);
 }

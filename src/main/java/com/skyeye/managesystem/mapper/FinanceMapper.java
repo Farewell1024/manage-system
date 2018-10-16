@@ -16,20 +16,20 @@ import java.util.List;
 @Repository
 public interface FinanceMapper {
 
-    @Select("SELECT * FROM finance WHERE type = #{type};")
+    @Select("SELECT * FROM t_finance WHERE type = #{type};")
     List<Finance> findFinanceByType(Integer type);
 
-    @Insert("INSERT INTO finance ( money, year, month, day, description, type) " +
+    @Insert("INSERT INTO t_finance ( money, year, month, day, description, type) " +
             "VALUES (#{money},#{year},#{month},#{day},#{description},#{type});")
     void addFinance(Finance finance);
 
-    @Delete("DELETE FROM finance WHERE id=#{id};")
+    @Delete("DELETE FROM t_finance WHERE id=#{id};")
     void deleteFinanceById(Integer id);
 
-    @Update("UPDATE finance SET money=#{money} AND year=#{year} AND month=#{month} AND day=#{day} " +
+    @Update("UPDATE t_finance SET money=#{money} AND year=#{year} AND month=#{month} AND day=#{day} " +
             "AND  description=#{description} AND type=#{type} WHERE id=#{id};")
     void updateFinance(Finance finance);
 
-    @Select("SELECT * FROM finance WHERE id = #{id};")
+    @Select("SELECT * FROM t_finance WHERE id = #{id};")
     Finance findFinanceById(Integer id);
 }

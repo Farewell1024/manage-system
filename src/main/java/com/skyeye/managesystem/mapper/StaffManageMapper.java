@@ -19,8 +19,8 @@ public interface StaffManageMapper {
     @Select("SELECT * FROM t_user;")
     List<User> findAll();
 
-    @Insert("INSERT INTO t_user (username,password,full_name,age,card_id,address,entry_date,title) " +
-            "VALUES (#{username},#{password},#{fullName},#{age},#{cardId},#{address},#{entryDate},#{title});")
+    @Insert("INSERT INTO t_user (username,password,full_name,age,card_id,address,entry_date,title,gender,level) " +
+            "VALUES (#{username},#{password},#{fullName},#{age},#{cardId},#{address},#{entryDate},#{title},#{gender},#{level}) ;")
 //    @Options(useGeneratedKeys = true)
     void createStaff(User user);
 
@@ -33,7 +33,7 @@ public interface StaffManageMapper {
     @Select("SELECT * FROM t_user WHERE username = #{username}")
     User findUserByUsername(String username);
 
-    @Update("UPDATE t_user SET username = #{username} AND full_name=#{fullName} AND age=#{age} AND card_id = #{cardId}" +
-            " AND address=#{address} AND  entry_date=#{entryDate} AND title= #{title};")
+    @Update("UPDATE t_user SET username=#{username} AND full_name=#{fullName} AND age=#{age} AND card_id = #{cardId}" +
+            " AND address=#{address} AND   title= #{title} and gender=#{gender} and level=#{level} where id=#{id};")
     void updateUser(User user);
 }

@@ -42,8 +42,6 @@ public interface TaskMapper {
 
     /**
      * 通过任务id来查找任务
-     * @param id
-     * @return
      */
     @Select("SELECT id,title,description,begin,end from task WHERE id = #{id};")
     Task findTaskById(Integer id);

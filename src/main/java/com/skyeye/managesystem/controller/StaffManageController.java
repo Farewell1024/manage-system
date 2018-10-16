@@ -6,6 +6,7 @@ import com.skyeye.managesystem.mapper.TaskMapper;
 import com.skyeye.managesystem.utils.Result;
 import com.skyeye.managesystem.utils.ResultGenerator;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,8 @@ public class StaffManageController {
     }
 
     @PostMapping("/new")
-    Result createStaff(@RequestBody User user){
+    @ApiOperation(value = "创建一个用户", httpMethod = "POST")
+    Result createStaff( @RequestBody User user){
         User find = staffManageMapper.findUserByUsername(user.getUsername());
         if (find != null ){
             return ResultGenerator.genFailResult("用户已存在！");
@@ -48,6 +50,7 @@ public class StaffManageController {
     }
 
     @GetMapping("/delete/{id}")
+    @ApiOperation(value = "删除用户", httpMethod = "GET")
     Result deleteStaff(@PathVariable Integer id){
         User user = staffManageMapper.selectOneById(id);
         if (user==null ){
@@ -58,6 +61,7 @@ public class StaffManageController {
     }
 
     @PostMapping("/update")
+    @ApiOperation(value = "修改用户信息", httpMethod = "POST")
     Result updateStaff(@RequestBody User user){
         User find = staffManageMapper.selectOneById(user.getId());
         if (find==null ){
@@ -68,6 +72,7 @@ public class StaffManageController {
     }
 
     @PostMapping("/distribute_task")
+    @ApiOperation(value = "为某人分配任务", httpMethod = "POST")
     Result distributeTask(@RequestParam Integer userId, @RequestParam Integer taskId){
         taskMapper.addTaskPeopleByTaskId(taskId,userId);
         return ResultGenerator.genSuccessResult();

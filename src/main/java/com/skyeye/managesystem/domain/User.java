@@ -1,6 +1,8 @@
 package com.skyeye.managesystem.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +20,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@ApiModel
 public class User {
 
+    @ApiModelProperty(value = "用户id")
     private Integer id;
 
     private String username;
@@ -41,5 +45,9 @@ public class User {
 
     private Integer gender;
 
+    /**
+     * 评级：1.初级 2.中级 3.高级
+     */
+    private Integer level;
 
 }

@@ -5,6 +5,9 @@ import com.skyeye.managesystem.domain.CheckIn;
 import com.skyeye.managesystem.mapper.CheckInMapper;
 import com.skyeye.managesystem.utils.Result;
 import com.skyeye.managesystem.utils.ResultGenerator;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,13 +25,15 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/check_in")
+@Api(description = "考勤管理")
 public class CheckInController {
 
     @Autowired
     private CheckInMapper checkInMapper;
 
+    @ApiOperation(value = "签到", httpMethod = "POST")
     @PostMapping("")
-    Result checkIn(Integer userId){
+    Result checkIn(@ApiParam(value = "用户id", required = true) Integer userId){
         Date date = new Date();
         CheckIn checkIn = new CheckIn();
         checkIn.setUserId(userId);
@@ -45,19 +50,25 @@ public class CheckInController {
         return ResultGenerator.genSuccessResult();
     }
 
+    @ApiOperation(value = "获取某年某月所有的打卡记录",httpMethod = "GET")
     @GetMapping("/count")
-    Result count(Integer year, Integer month, Integer userId){
+    Result count(@ApiParam(value = "年份", required = true) Integer year,
+                 @ApiParam(value = "月份", required = true) Integer month,
+                 @ApiParam(value = "用户id", required = true) Integer userId){
         List<CheckIn> checkIns = checkInMapper.searchByDateAndUserId(year, month, userId);
         return ResultGenerator.genSuccessResult(checkIns);
     }
 
+    @ApiOperation(value = "统计某年某月打卡天数和迟到天数",httpMethod = "GET",notes = "数组第一位总打卡天数，第二位为迟到天数")
     @GetMapping("/sum")
-    Result sum(Integer year, Integer month, Integer userId){
+    Result sum(@ApiParam(value = "年份", required = true) Integer year,
+               @ApiParam(value = "月份", required = true) Integer month,
+               @ApiParam(value = "用户id", required = true) Integer userId){
         Integer checkInDay = checkInMapper.searchSumCheckIn( year,  month,  userId);
         Integer lateDay =  checkInMapper.searchSumLate(year,  month,  userId);
         List<Integer> list = Lists.newArrayList();
-        list.add(checkInDay);
-        list.add(lateDay);
+        list.add(checkInDay==null?0:checkInDay);
+        list.add(lateDay==null?0:lateDay);
         return ResultGenerator.genSuccessResult(list);
     }
 

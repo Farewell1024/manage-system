@@ -4,6 +4,8 @@ import com.skyeye.managesystem.domain.Task;
 import com.skyeye.managesystem.mapper.TaskMapper;
 import com.skyeye.managesystem.utils.Result;
 import com.skyeye.managesystem.utils.ResultGenerator;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +19,14 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/task")
+@Api(description = "任务管理")
 public class TaskController {
 
     @Autowired
     TaskMapper taskMapper;
 
     @GetMapping("/all")
+    @ApiOperation(value = "获取所有任务", httpMethod = "GET")
     Result allTask(){
         List<Task> tasks = taskMapper.findAll();
         tasks.forEach(x -> x.setPeople(taskMapper.findPeopleByTaskId(x.getId())));
@@ -31,6 +35,7 @@ public class TaskController {
     }
 
     @PostMapping("/delete/{id}")
+    @ApiOperation(value = "删除任务", httpMethod = "POST")
     Result deleteTask(@PathVariable Integer id){
         Task task = taskMapper.findTaskById(id);
         if (task==null){
@@ -43,6 +48,7 @@ public class TaskController {
     }
 
     @PostMapping("/update")
+    @ApiOperation(value = "更新任务", httpMethod = "POST")
     Result updateTask(@RequestBody Task task){
         Task find = taskMapper.findTaskById(task.getId());
         if (find==null){
@@ -57,6 +63,7 @@ public class TaskController {
     }
 
     @PostMapping("/create")
+    @ApiOperation(value = "创建任务", httpMethod = "POST")
     Result newTask(@RequestBody Task task){
         taskMapper.newTask(task);
         task.getPeople().forEach(x -> taskMapper.addTaskPeopleByTaskId(task.getId(), x.getId()));

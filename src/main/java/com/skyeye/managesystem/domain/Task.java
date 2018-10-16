@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -26,8 +27,10 @@ public class Task {
 
     private String description;
 
+    @DateTimeFormat(pattern = "yyyy/MM/dd hh:mm")
     private Date begin;
 
+    @DateTimeFormat(pattern = "yyyy/MM/dd hh:mm")
     private Date end;
 
     private List<User> people;
