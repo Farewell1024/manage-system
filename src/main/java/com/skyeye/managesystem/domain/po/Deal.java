@@ -1,4 +1,4 @@
-package com.skyeye.managesystem.domain;
+package com.skyeye.managesystem.domain.po;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

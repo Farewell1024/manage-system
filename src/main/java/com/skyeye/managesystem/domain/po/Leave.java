@@ -1,5 +1,6 @@
-package com.skyeye.managesystem.domain;
+package com.skyeye.managesystem.domain.po;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,10 +23,13 @@ public class Leave {
 
     private String userName;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "GMT+8")
     private Date createTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date startTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date endTime;
 
     private String description;

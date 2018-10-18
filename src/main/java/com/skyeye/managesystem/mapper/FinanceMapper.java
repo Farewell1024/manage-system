@@ -1,6 +1,6 @@
 package com.skyeye.managesystem.mapper;
 
-import com.skyeye.managesystem.domain.Finance;
+import com.skyeye.managesystem.domain.po.Finance;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -26,8 +26,8 @@ public interface FinanceMapper {
     @Delete("DELETE FROM t_finance WHERE id=#{id};")
     void deleteFinanceById(Integer id);
 
-    @Update("UPDATE t_finance SET money=#{money} AND year=#{year} AND month=#{month} AND day=#{day} " +
-            "AND  description=#{description} AND type=#{type} WHERE id=#{id};")
+    @Update("UPDATE t_finance SET money=#{money} , year=#{year} , month=#{month} , day=#{day}, " +
+            "description=#{description},type=#{type} WHERE id=#{id};")
     void updateFinance(Finance finance);
 
     @Select("SELECT * FROM t_finance WHERE id = #{id};")

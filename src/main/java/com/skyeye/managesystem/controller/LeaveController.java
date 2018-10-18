@@ -1,7 +1,7 @@
 package com.skyeye.managesystem.controller;
 
 import com.google.common.collect.Lists;
-import com.skyeye.managesystem.domain.Leave;
+import com.skyeye.managesystem.domain.po.Leave;
 import com.skyeye.managesystem.mapper.LeaveMapper;
 import com.skyeye.managesystem.utils.Result;
 import com.skyeye.managesystem.utils.ResultGenerator;
@@ -19,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/leave")
 @Api(description = "请假管理")
+@CrossOrigin
 public class LeaveController {
 
     @Autowired
@@ -26,7 +27,7 @@ public class LeaveController {
 
     @ApiOperation(value = "根据状态获取请假信息")
     @GetMapping("/get_all")
-    Result untreated(@ApiParam(value = "请假状态。0：审核中；1：通过：2：未通过。按需传入", required = true) List<Integer> status){
+    Result untreated(@ApiParam(name = "请假状态。0：审核中；1：通过：2：未通过。按需传入", required = true)@RequestParam List<Integer> status){
         List<Leave> leaves = Lists.newArrayList();
         status.forEach(x -> leaves.addAll(leaveMapper.getLeaveByStatus(x)));
         return ResultGenerator.genSuccessResult(leaves);
@@ -34,8 +35,8 @@ public class LeaveController {
 
     @ApiOperation(value = "修改请假状态")
     @PostMapping("/update")
-    Result updateLeave(@ApiParam(value = "请假信息id",required = true) Integer id,
-                       @ApiParam(value = "状态",required = true) Integer status){
+    Result updateLeave(@ApiParam(value = "请假信息id",required = true)@RequestParam Integer id,
+                       @ApiParam(value = "状态",required = true)@RequestParam Integer status){
         Leave find = leaveMapper.getLeaveById(id);
         if (find == null){
             return ResultGenerator.genFailResult("请假信息不存在！");
@@ -46,7 +47,7 @@ public class LeaveController {
 
     @ApiOperation(value = "获得单个用户请假信息")
     @GetMapping("/get_single")
-    Result getSingle(@ApiParam(value = "用户id",required = true) Integer userId){
+    Result getSingle(@ApiParam(value = "用户id",required = true) @RequestParam Integer userId){
         List<Leave> leaves = leaveMapper.getLeaveByUserId(userId);
         return ResultGenerator.genSuccessResult(leaves);
     }
@@ -55,6 +56,6 @@ public class LeaveController {
     @PostMapping("/new_leave")
     Result newLeave(@RequestBody Leave leave){
         leaveMapper.addLeave(leave);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(true);
     }
 }

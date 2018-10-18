@@ -1,6 +1,6 @@
 package com.skyeye.managesystem.mapper;
 
-import com.skyeye.managesystem.domain.CheckIn;
+import com.skyeye.managesystem.domain.po.CheckIn;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -23,7 +23,7 @@ public interface CheckInMapper {
             "VALUES (#{userId},#{year},#{month},#{day},#{hour},#{minute},#{isLate});")
     void checkIn(CheckIn checkIn);
 
-    @Select("SELECT user_id, year, month, day, hour, minute, is_late FROM check_in WHERE year='' AND month='' AND user_id='';")
+    @Select("SELECT id ,user_id, year, month, day, hour, minute, is_late FROM check_in WHERE year=#{year} AND month=#{month} AND user_id=#{userId};")
     List<CheckIn> searchByDateAndUserId(@Param("year") Integer year,@Param("month")  Integer month,@Param("userId")  Integer userId);
 
     @Select("SELECT sum(1) from check_in where user_id=#{userId} AND year=#{year} and month=#{month};")

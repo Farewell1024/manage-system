@@ -1,8 +1,8 @@
 package com.skyeye.managesystem.mapper;
 
-import com.skyeye.managesystem.domain.Task;
-import com.skyeye.managesystem.domain.TaskSchedule;
-import com.skyeye.managesystem.domain.User;
+import com.skyeye.managesystem.domain.po.Task;
+import com.skyeye.managesystem.domain.po.TaskSchedule;
+import com.skyeye.managesystem.domain.po.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -30,7 +30,7 @@ public interface TaskMapper {
     @Delete("DELETE FROM task_user WHERE task_id=#{id};")
     void deleteTaskPeopleByTaskId(Integer id);
 
-    @Update("UPDATE task SET title=#{title} AND description=#{description} AND begin=#{begin} AND end=#{end} WHERE id=#{id};")
+    @Update("UPDATE task SET title=#{title} , description=#{description} , begin=#{begin} , end=#{end} WHERE id=#{id};")
     void updateTask(Task task);
 
     @Insert("INSERT task_user (user_id, task_id) VALUES (#{userId},#{taskId})")
@@ -47,7 +47,7 @@ public interface TaskMapper {
     Task findTaskById(Integer id);
 
     @Select("select task_id, create_time,description from task_schedule where task_id=#{id} order by create_time")
-    void findScheduleByTaskId(Integer id);
+    List<TaskSchedule> findScheduleByTaskId(Integer id);
 
     @Delete("delete from task_schedule where task_id=#{id} ")
     void deleteTaskScheduleByTaskId(Integer id);

@@ -1,7 +1,7 @@
 package com.skyeye.managesystem.controller;
 
 import com.google.common.collect.Lists;
-import com.skyeye.managesystem.domain.Finance;
+import com.skyeye.managesystem.domain.po.Finance;
 import com.skyeye.managesystem.mapper.FinanceMapper;
 import com.skyeye.managesystem.utils.Result;
 import com.skyeye.managesystem.utils.ResultGenerator;
@@ -19,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/finance")
 @Api(description = "财务管理")
+@CrossOrigin
 public class FinanceController {
 
     @Autowired
@@ -36,7 +37,7 @@ public class FinanceController {
     @ApiOperation(value = "新建财务信息" ,httpMethod = "POST")
     Result newFinance(@RequestBody Finance finance ){
         financeMapper.addFinance(finance);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(true);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -47,7 +48,7 @@ public class FinanceController {
             return ResultGenerator.genFailResult("记录不存在！");
         }
         financeMapper.deleteFinanceById(id);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(true);
     }
 
     @PostMapping("/update")
@@ -58,7 +59,7 @@ public class FinanceController {
             return ResultGenerator.genFailResult("记录不存在！");
         }
         financeMapper.updateFinance(finance);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(true);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.skyeye.managesystem.mapper;
 
-import com.skyeye.managesystem.domain.Deal;
-import com.skyeye.managesystem.domain.DealDescription;
+import com.skyeye.managesystem.domain.po.Deal;
+import com.skyeye.managesystem.domain.po.DealDescription;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -35,6 +35,6 @@ public interface DealMapper {
     @Select("select id, user_id, user_name,type from t_deal where id=#{id}")
     Deal findById(Integer id);
 
-    @Update("update t_deal set user_id=#{userId} and user_name=#{userName} and type=#{type} where id=#{id} ")
+    @Update("update t_deal set user_id=#{userId} , user_name=#{userName} , type=#{type} where id=#{id} ")
     void updateDeal(Deal deal);
 }

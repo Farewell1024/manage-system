@@ -1,6 +1,6 @@
 package com.skyeye.managesystem.mapper;
 
-import com.skyeye.managesystem.domain.Leave;
+import com.skyeye.managesystem.domain.po.Leave;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 

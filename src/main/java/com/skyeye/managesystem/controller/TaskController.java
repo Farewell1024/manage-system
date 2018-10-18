@@ -1,6 +1,6 @@
 package com.skyeye.managesystem.controller;
 
-import com.skyeye.managesystem.domain.Task;
+import com.skyeye.managesystem.domain.po.Task;
 import com.skyeye.managesystem.mapper.TaskMapper;
 import com.skyeye.managesystem.utils.Result;
 import com.skyeye.managesystem.utils.ResultGenerator;
@@ -20,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/task")
 @Api(description = "任务管理")
+@CrossOrigin
 public class TaskController {
 
     @Autowired
@@ -30,7 +31,7 @@ public class TaskController {
     Result allTask(){
         List<Task> tasks = taskMapper.findAll();
         tasks.forEach(x -> x.setPeople(taskMapper.findPeopleByTaskId(x.getId())));
-        tasks.forEach(x -> taskMapper.findScheduleByTaskId(x.getId()));
+        tasks.forEach(x -> x.setTaskSchedules(taskMapper.findScheduleByTaskId(x.getId())));
         return ResultGenerator.genSuccessResult(tasks);
     }
 
@@ -66,10 +67,11 @@ public class TaskController {
     @ApiOperation(value = "创建任务", httpMethod = "POST")
     Result newTask(@RequestBody Task task){
         taskMapper.newTask(task);
-        task.getPeople().forEach(x -> taskMapper.addTaskPeopleByTaskId(task.getId(), x.getId()));
-        task.getTaskSchedules().forEach(x -> taskMapper.addTaskSchedule(x));
+        if (task.getPeople().size()>0 && task.getPeople() != null)
+            task.getPeople().forEach(x -> taskMapper.addTaskPeopleByTaskId(task.getId(), x.getId()));
+        if (task.getTaskSchedules().size()>0 && task.getTaskSchedules() != null)
+            task.getTaskSchedules().forEach(x -> taskMapper.addTaskSchedule(x));
         return ResultGenerator.genSuccessResult(true);
     }
-
 
 }

@@ -1,12 +1,11 @@
 package com.skyeye.managesystem.controller;
 
-import com.skyeye.managesystem.domain.User;
+import com.skyeye.managesystem.domain.po.User;
 import com.skyeye.managesystem.mapper.StaffManageMapper;
 import com.skyeye.managesystem.mapper.TaskMapper;
 import com.skyeye.managesystem.utils.Result;
 import com.skyeye.managesystem.utils.ResultGenerator;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/staff_manage")
 @Api(value = "员工管理", description = "员工管理")
+@CrossOrigin
 public class StaffManageController {
 
     @Autowired
@@ -46,7 +46,7 @@ public class StaffManageController {
         }
         user.setPassword("123456");
         staffManageMapper.createStaff(user);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(true);
     }
 
     @GetMapping("/delete/{id}")
@@ -68,13 +68,13 @@ public class StaffManageController {
             return ResultGenerator.genFailResult("该用户不存在！");
         }
         staffManageMapper.updateUser(user);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(true);
     }
 
     @PostMapping("/distribute_task")
     @ApiOperation(value = "为某人分配任务", httpMethod = "POST")
     Result distributeTask(@RequestParam Integer userId, @RequestParam Integer taskId){
         taskMapper.addTaskPeopleByTaskId(taskId,userId);
-        return ResultGenerator.genSuccessResult();
+        return ResultGenerator.genSuccessResult(true);
     }
 }

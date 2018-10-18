@@ -1,6 +1,6 @@
 package com.skyeye.managesystem.mapper;
 
-import com.skyeye.managesystem.domain.User;
+import com.skyeye.managesystem.domain.po.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -33,7 +33,7 @@ public interface StaffManageMapper {
     @Select("SELECT * FROM t_user WHERE username = #{username}")
     User findUserByUsername(String username);
 
-    @Update("UPDATE t_user SET username=#{username} AND full_name=#{fullName} AND age=#{age} AND card_id = #{cardId}" +
-            " AND address=#{address} AND   title= #{title} and gender=#{gender} and level=#{level} where id=#{id};")
+    @Update("UPDATE t_user SET username=#{username} ,full_name=#{fullName} , age=#{age} , card_id = #{cardId}" +
+            " , address=#{address} ,title= #{title} , gender=#{gender} , level=#{level} where id=#{id};")
     void updateUser(User user);
 }

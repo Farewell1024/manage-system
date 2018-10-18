@@ -1,5 +1,6 @@
-package com.skyeye.managesystem.domain;
+package com.skyeye.managesystem.domain.po;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ public class DealDescription {
 
     private Integer dealId;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm",timezone = "GMT+8")
     private Date createTime;
 
     private String description;

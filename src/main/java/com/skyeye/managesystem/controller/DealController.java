@@ -1,13 +1,12 @@
 package com.skyeye.managesystem.controller;
 
-import com.skyeye.managesystem.domain.Deal;
+import com.skyeye.managesystem.domain.po.Deal;
 import com.skyeye.managesystem.mapper.DealMapper;
 import com.skyeye.managesystem.utils.Result;
 import com.skyeye.managesystem.utils.ResultGenerator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +18,7 @@ import java.util.List;
 @RequestMapping("/deal")
 @RestController
 @Api(description = "交易管理")
+@CrossOrigin
 public class DealController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class DealController {
         return ResultGenerator.genSuccessResult(deals);
     }
 
-    @Delete("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "删除交易", httpMethod = "DELETE")
     Result delete(@ApiParam(value = "交易id" , required = true) @PathVariable Integer id){
         Deal find = dealMapper.findById(id);
@@ -49,10 +49,12 @@ public class DealController {
     @ApiOperation(value = "新建交易", httpMethod = "POST")
     Result create(@RequestBody Deal deal){
         dealMapper.addDeal(deal);
-        deal.getDescription().forEach(x -> {
-            x.setDealId(deal.getId());
-            dealMapper.addDescription(x);
-        });
+        if (deal.getDescription().size()>0 && deal.getDescription()!=null){
+            deal.getDescription().forEach(x -> {
+                x.setDealId(deal.getId());
+                dealMapper.addDescription(x);
+            });
+        }
         return ResultGenerator.genSuccessResult(true);
     }
 
