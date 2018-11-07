@@ -53,4 +53,6 @@ public class User {
      */
     private Integer level;
 
+    private String role;
+
 }

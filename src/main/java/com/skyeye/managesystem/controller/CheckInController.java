@@ -8,6 +8,7 @@ import com.skyeye.managesystem.utils.ResultGenerator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ public class CheckInController {
 
     @Autowired
     private CheckInMapper checkInMapper;
+
 
     @ApiOperation(value = "签到", httpMethod = "POST")
     @PostMapping("")

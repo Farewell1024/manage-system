@@ -7,6 +7,7 @@ import com.skyeye.managesystem.utils.Result;
 import com.skyeye.managesystem.utils.ResultGenerator;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ public class StaffManageController {
     @Autowired
     private TaskMapper taskMapper;
 
+    @RequiresPermissions("staff:all")
     @ApiOperation(value = "查询所有的职员",httpMethod = "GET")
     @GetMapping("/all")
     Result findAll(){
