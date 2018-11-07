@@ -33,7 +33,7 @@ public class LoginController {
         if (!user.getPassword().equals(loginDTO.getPassword())){
             return ResultGenerator.genFailResult("密码不正确");
         }
-        return ResultGenerator.genSuccessResult(user.getRole());
+        return ResultGenerator.genSuccessResult(user);
     }
 
     @PostMapping("/logout")
