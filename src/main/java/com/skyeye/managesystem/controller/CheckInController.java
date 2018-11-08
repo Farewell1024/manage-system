@@ -44,9 +44,9 @@ public class CheckInController {
         checkIn.setMinute(date.getMinutes());
         // 九点前（含）打卡不算迟到
         if ((checkIn.getHour()==9&checkIn.getMinute()==0) || checkIn.getHour()<9){
-            checkIn.setIsLate(false);
+            checkIn.setLate(false);
         }else {
-            checkIn.setIsLate(true);
+            checkIn.setLate(true);
         }
         checkInMapper.checkIn(checkIn);
         System.out.println(checkIn);

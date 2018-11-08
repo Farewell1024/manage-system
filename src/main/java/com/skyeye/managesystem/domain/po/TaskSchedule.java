@@ -13,10 +13,6 @@ import java.util.Date;
 /**
  * 工作进度
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
 public class TaskSchedule {
 
     private Integer taskId;
@@ -26,4 +22,45 @@ public class TaskSchedule {
 
     private String description;
 
+    public TaskSchedule(Integer taskId, Date createTime, String description) {
+        this.taskId = taskId;
+        this.createTime = createTime;
+        this.description = description;
+    }
+
+    public TaskSchedule() {
+    }
+
+    @Override
+    public String toString() {
+        return "TaskSchedule{" +
+                "taskId=" + taskId +
+                ", createTime=" + createTime +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+    public Integer getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

@@ -31,7 +31,7 @@ public class StaffManageController {
     @Autowired
     private TaskMapper taskMapper;
 
-    @RequiresPermissions("staff:all")
+//    @RequiresPermissions("staff:all")
     @ApiOperation(value = "查询所有的职员",httpMethod = "GET")
     @GetMapping("/all")
     Result findAll(){

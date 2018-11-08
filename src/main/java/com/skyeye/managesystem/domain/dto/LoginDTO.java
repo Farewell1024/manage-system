@@ -1,6 +1,5 @@
 package com.skyeye.managesystem.domain.dto;
 
-import lombok.Data;
 
 /**
  * Function:

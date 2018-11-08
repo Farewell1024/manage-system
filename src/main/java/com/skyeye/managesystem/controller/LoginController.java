@@ -43,4 +43,11 @@ public class LoginController {
         return ResultGenerator.genSuccessResult(true);
     }
 
+
+    @PostMapping("/modify_role")
+    Result modifyRole(){
+        return null;
+    }
+
+
 }
