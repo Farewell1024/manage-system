@@ -6,6 +6,7 @@ import com.skyeye.managesystem.mapper.StaffManageMapper;
 import com.skyeye.managesystem.utils.Result;
 import com.skyeye.managesystem.utils.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since JDK 1.8
  */
 @RestController("/user")
+@CrossOrigin
 public class LoginController {
 
     @Autowired
