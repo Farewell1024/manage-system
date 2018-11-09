@@ -36,4 +36,7 @@ public interface StaffManageMapper {
     @Update("UPDATE t_user SET username=#{username} ,full_name=#{fullName} , age=#{age} , card_id = #{cardId}" +
             " , address=#{address} ,title= #{title} , gender=#{gender} , level=#{level} where id=#{id};")
     void updateUser(User user);
+
+    @Update("UPDATE t_user SET role=#{roleName} where id=#{id}")
+    void updateRoleByUserId(@Param("userId") Integer userId,@Param("roleName") String roleName);
 }

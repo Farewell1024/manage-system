@@ -1,6 +1,7 @@
 package com.skyeye.managesystem.controller;
 
 import com.google.common.collect.Lists;
+import com.skyeye.managesystem.domain.dto.StatusDTO;
 import com.skyeye.managesystem.domain.po.Leave;
 import com.skyeye.managesystem.mapper.LeaveMapper;
 import com.skyeye.managesystem.utils.Result;
@@ -26,8 +27,9 @@ public class LeaveController {
     private LeaveMapper leaveMapper;
 
     @ApiOperation(value = "根据状态获取请假信息")
-    @GetMapping("/get_all")
-    Result untreated(@ApiParam(name = "请假状态。0：审核中；1：通过：2：未通过。按需传入", required = true)@RequestParam List<Integer> status){
+    @PostMapping("/get_all")
+    Result untreated(@RequestBody StatusDTO dto){
+        List<Integer> status = dto.getStatus();
         List<Leave> leaves = Lists.newArrayList();
         status.forEach(x -> leaves.addAll(leaveMapper.getLeaveByStatus(x)));
         return ResultGenerator.genSuccessResult(leaves);

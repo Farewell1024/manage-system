@@ -1,5 +1,8 @@
 package com.skyeye.managesystem.controller;
+import com.google.common.collect.Lists;
+import java.util.Date;
 
+import com.skyeye.managesystem.domain.dto.TaskDTO;
 import com.skyeye.managesystem.domain.po.Task;
 import com.skyeye.managesystem.mapper.TaskMapper;
 import com.skyeye.managesystem.utils.Result;
@@ -50,28 +53,72 @@ public class TaskController {
 
     @PostMapping("/update")
     @ApiOperation(value = "更新任务", httpMethod = "POST")
-    Result updateTask(@RequestBody Task task){
+    Result updateTask(@RequestBody TaskDTO taskDTO){
+        Task task = new Task();
+        task.setId(taskDTO.getId());
+        task.setTitle(taskDTO.getTitle());
+        task.setDescription(taskDTO.getDescription());
+        task.setBegin(taskDTO.getBegin());
+        task.setEnd(taskDTO.getEnd());
+        task.setTaskSchedules(taskDTO.getTaskSchedules());
+
         Task find = taskMapper.findTaskById(task.getId());
         if (find==null){
             return ResultGenerator.genFailResult("任务不存在！");
         }
         taskMapper.updateTask(task);
-        taskMapper.deleteTaskPeopleByTaskId(task.getId());
-        task.getPeople().forEach(x -> taskMapper.addTaskPeopleByTaskId(task.getId(), x.getId()));
-        taskMapper.deleteTaskScheduleByTaskId(task.getId());
-        task.getTaskSchedules().forEach(x -> taskMapper.addTaskSchedule(x));
+        if (taskDTO.getUserId().size()>0){
+            taskMapper.deleteTaskPeopleByTaskId(task.getId());
+            taskDTO.getUserId().forEach(x -> {taskMapper.addTaskPeopleByTaskId(task.getId(),x);});
+        }
+        if (task.getTaskSchedules().size()>0){
+            taskMapper.deleteTaskScheduleByTaskId(task.getId());
+            task.getTaskSchedules().forEach(x -> taskMapper.addTaskSchedule(x));
+        }
         return ResultGenerator.genSuccessResult(true);
     }
 
     @PostMapping("/create")
     @ApiOperation(value = "创建任务", httpMethod = "POST")
-    Result newTask(@RequestBody Task task){
+    Result newTask(@RequestBody TaskDTO taskDTO){
+        Task task = new Task();
+        task.setTitle(taskDTO.getTitle());
+        task.setDescription(taskDTO.getDescription());
+        task.setBegin(taskDTO.getBegin());
+        task.setEnd(taskDTO.getEnd());
+        task.setTaskSchedules(Lists.newArrayList());
         taskMapper.newTask(task);
-        if (task.getPeople().size()>0 && task.getPeople() != null)
-            task.getPeople().forEach(x -> taskMapper.addTaskPeopleByTaskId(task.getId(), x.getId()));
-        if (task.getTaskSchedules().size()>0 && task.getTaskSchedules() != null)
-            task.getTaskSchedules().forEach(x -> taskMapper.addTaskSchedule(x));
+
+        if (taskDTO.getUserId().size()>0){
+            taskDTO.getUserId().forEach(x -> {taskMapper.addTaskPeopleByTaskId(task.getId(),x);});
+        }
+        if (taskDTO.getTaskSchedules().size()>0 && taskDTO.getTaskSchedules() != null){
+            taskDTO.getTaskSchedules().forEach(x -> {
+                x.setTaskId(task.getId());
+                taskMapper.addTaskSchedule(x);
+            });
+        }
+
         return ResultGenerator.genSuccessResult(true);
     }
+
+    @GetMapping("/get_by_userId")
+    @ApiOperation(value = "根据用户id查找用户任务",httpMethod = "GET")
+    public Result getByUserId(@RequestParam Integer userId){
+        List<Integer> taskIds = taskMapper.getTaskIdByUserId(userId);
+        if (taskIds.size()==0){
+            return ResultGenerator.genFailResult("此员工暂无任务！");
+        }
+        List<Task> tasks = Lists.newArrayList();
+        taskIds.forEach(taskId -> {
+            Task task = taskMapper.findTaskById(taskId);
+            task.setPeople(taskMapper.findPeopleByTaskId(task.getId()));
+            task.setTaskSchedules(taskMapper.findScheduleByTaskId(task.getId()));
+            tasks.add(task);
+        });
+        return ResultGenerator.genSuccessResult(tasks);
+
+    }
+
 
 }

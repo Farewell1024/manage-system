@@ -1,22 +1,20 @@
-package com.skyeye.managesystem.domain.po;
+package com.skyeye.managesystem.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.skyeye.managesystem.domain.po.TaskSchedule;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.util.Date;
 import java.util.List;
 
 /**
- * Function: 任务类
+ * Function:
  *
- * Date: 2018/10/11 下午6:00
+ * @author zhangyu
+ * Date: 2018/11/9 11:14 AM
  * @since JDK 1.8
  */
-public class Task {
+public class TaskDTO {
 
     private Integer id ;
 
@@ -33,32 +31,32 @@ public class Task {
     @ApiModelProperty("结束时间；yyyy-MM-dd HH:mm")
     private Date end;
 
-    private List<User> people;
+    private List<Integer> userId;
 
     private List<TaskSchedule> taskSchedules;
 
-    public Task() {
-    }
-
-    public Task(Integer id, String title, String description, Date begin, Date end, List<User> people, List<TaskSchedule> taskSchedules) {
+    public TaskDTO(Integer id, String title, String description, Date begin, Date end, List<Integer> userId, List<TaskSchedule> taskSchedules) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.begin = begin;
         this.end = end;
-        this.people = people;
+        this.userId = userId;
         this.taskSchedules = taskSchedules;
+    }
+
+    public TaskDTO() {
     }
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "TaskDTO{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", begin=" + begin +
                 ", end=" + end +
-                ", people=" + people +
+                ", userId=" + userId +
                 ", taskSchedules=" + taskSchedules +
                 '}';
     }
@@ -103,12 +101,12 @@ public class Task {
         this.end = end;
     }
 
-    public List<User> getPeople() {
-        return people;
+    public List<Integer> getUserId() {
+        return userId;
     }
 
-    public void setPeople(List<User> people) {
-        this.people = people;
+    public void setUserId(List<Integer> userId) {
+        this.userId = userId;
     }
 
     public List<TaskSchedule> getTaskSchedules() {

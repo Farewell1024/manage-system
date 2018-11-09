@@ -1,7 +1,9 @@
 package com.skyeye.managesystem.controller;
 
 import com.skyeye.managesystem.domain.dto.LoginDTO;
+import com.skyeye.managesystem.domain.dto.ModifyRoleDTO;
 import com.skyeye.managesystem.domain.po.User;
+import com.skyeye.managesystem.enums.RoleTypeEnum;
 import com.skyeye.managesystem.mapper.StaffManageMapper;
 import com.skyeye.managesystem.utils.Result;
 import com.skyeye.managesystem.utils.ResultGenerator;
@@ -45,8 +47,17 @@ public class LoginController {
 
 
     @PostMapping("/modify_role")
-    Result modifyRole(){
-        return null;
+    Result modifyRole(@RequestBody ModifyRoleDTO dto){
+        Integer userId = dto.getUserId();
+        User find = staffManageMapper.selectOneById(userId);
+        if (find==null){
+            return ResultGenerator.genFailResult("无此用户");
+        }
+
+        Integer roleType = dto.getRoleType();
+        String roleName = RoleTypeEnum.getRoleNameById(roleType);
+        staffManageMapper.updateRoleByUserId(userId,roleName);
+        return ResultGenerator.genSuccessResult(true);
     }
 
 

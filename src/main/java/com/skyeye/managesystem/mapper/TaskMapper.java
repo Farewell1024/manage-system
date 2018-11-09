@@ -54,4 +54,7 @@ public interface TaskMapper {
 
     @Insert("insert task_schedule (task_id,create_time,description ) values (#{taskId},#{createTime},#{description})")
     void addTaskSchedule(TaskSchedule x);
+
+    @Select("SELECT task_id FROM task_user WHERE user_id=#{userId};")
+    List<Integer> getTaskIdByUserId(Integer userId);
 }
